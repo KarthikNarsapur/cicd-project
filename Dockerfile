@@ -1,4 +1,4 @@
-FROM Python:3.6-alpine
+FROM python:3.6-alpine
 
 ADD ./src /pyapp
 
