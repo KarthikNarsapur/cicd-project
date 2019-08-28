@@ -1,6 +1,4 @@
-# Docker
-# Build a Docker image 
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+# Build and push a Docker image 
 
 trigger:
 - master
@@ -27,3 +25,8 @@ stages:
         dockerfile: 'Dockerfile'
         tags: |
           $(tag)
+    - task: Docker@2
+      displayName: Push docker image to ACR
+      inputs:
+        containerRegistry: 'dicci-acr'
+        command: push
