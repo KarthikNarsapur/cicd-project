@@ -8,7 +8,7 @@ resources:
 
 variables:
   tag: $(Build.BuildId)
-  acr: syspython.azurecr.io
+  acr: syspthon
 
 stages:
 - stage: Build

@@ -64,7 +64,7 @@
                 "name": "[parameters('container_registry_sku')]"
             },
             "properties": {
-                "adminUserEnabled": false
+                "adminUserEnabled": true
             }
         },
         {
