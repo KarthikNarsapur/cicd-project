@@ -25,7 +25,7 @@ stages:
         command: build
         dockerfile: 'Dockerfile'
         tags: |
-        $(acr)/$(tag)
+          $(tag)
 #    - task: Docker@2
 #      displayName: Push docker image to ACR
 #      inputs:
