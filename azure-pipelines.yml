@@ -7,8 +7,9 @@ resources:
 - repo: self
 
 variables:
-  tag: $(Build.BuildId)
-  acr: syspthon
+  imageName: docker-python
+  tag: 0.$(Build.BuildId)
+  acr: dicci-acr
 
 stages:
 - stage: Build
@@ -23,11 +24,15 @@ stages:
       displayName: Build an image
       inputs:
         command: build
+        repository: $(imageName)
         dockerfile: 'Dockerfile'
         tags: |
           $(tag)
-#    - task: Docker@2
-#      displayName: Push docker image to ACR
-#      inputs:
-#        containerRegistry: $(acr)
-#        command: push
+    - task: Docker@2
+      displayName: Push docker image to ACR
+      inputs:
+        command: push
+        containerRegistry: $(acr)
+        repository: $(imageName)
+        tags: |
+          $(tag)
