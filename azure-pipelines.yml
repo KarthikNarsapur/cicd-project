@@ -7,7 +7,8 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  tag: $(Build.BuildId)
+  acr: syspython.azurecr.io
 
 stages:
 - stage: Build
@@ -28,5 +29,5 @@ stages:
     - task: Docker@2
       displayName: Push docker image to ACR
       inputs:
-        containerRegistry: 'dicci-acr'
+        containerRegistry: $(acr)
         command: push
