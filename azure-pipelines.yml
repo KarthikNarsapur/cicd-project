@@ -26,8 +26,8 @@ stages:
         dockerfile: 'Dockerfile'
         tags: |
         $(acr)/$(tag)
-    - task: Docker@2
-      displayName: Push docker image to ACR
-      inputs:
-        containerRegistry: $(acr)
-        command: push
+#    - task: Docker@2
+#      displayName: Push docker image to ACR
+#      inputs:
+#        containerRegistry: $(acr)
+#        command: push
