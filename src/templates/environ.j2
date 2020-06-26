@@ -1,0 +1,15 @@
+<!doctype html>
+<title>Python Flask File Upload Example</title>
+<h2>Environment variables</h2>
+<table>
+    <tr>
+		<th scope="col">Name</th>
+		<th scope="col">Value</th>
+    </tr>
+    {% for env in items.items() %}
+    <tr>
+		<td>{{env[0]}}</td>
+		<td>{{env[1]}}</td>
+    </tr>
+    {% endfor %}
+</table>
