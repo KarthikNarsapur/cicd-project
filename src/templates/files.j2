@@ -8,12 +8,10 @@
 <table>
     <tr>
 		<th scope="col">Name</th>
-		<th scope="col">Value</th>
     </tr>
-    {% for env in items.items() %}
+    {% for blob in file_list %}
     <tr>
-		<td>{{env[0]}}</td>
-		<td>{% if env[0].lower().find("connection") > -1 %}****{% else %}{{env[1]}}{% endif %}</td>
+		<td>{{ blob.name }}</td>
     </tr>
     {% endfor %}
 </table>

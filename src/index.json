@@ -1,0 +1,24 @@
+{
+    "Home": {
+        "URL": "/",
+        "Sections": [
+            {
+                "name": "Introduction",
+                "URL": "/"
+            }
+        ]
+    },
+    "Files": {
+        "URL": "/files",
+        "Sections": [
+            {
+                "name": "Your files",
+                "URL": "/files"
+            },
+            {
+                "name": "Upload New File" ,
+                "URL": "/upload"
+            }
+        ]
+    }
+}

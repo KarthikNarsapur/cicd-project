@@ -8,6 +8,25 @@
                 "description": "Globally unique name of the function app. All resource names are derived from this."
             }
         },
+        "containerDefinition": {
+            "type": "string",
+            "defaultValue": "DOCKER",
+            "allowedValues": [
+                "DOCKER",
+                "COMPOSE",
+                "KUBE"
+            ],
+            "metadata": {
+                "description": "How the container image(s) are defined, use DOCKER for a single image, COMPOSE for a Docker Compose yaml file or KUBE for a Kubernetes Service file"
+            }
+        },
+        "containerImageName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Name of the container to deploy. Leave empty to not to deploy an image"
+            }
+        },
         "acrSku":{
             "type": "string",
             "defaultValue": "Basic",
@@ -20,9 +39,27 @@
                 "description": "The SKU of Container Registry"
             }
         },
+        "containerRegistryName":{
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Azure container registry"
+            }
+        },
+        "containerRegistryUsername":{
+            "type": "string",
+            "metadata": {
+                "description": "Userame for accessing the Azure container registry"
+            }
+        },
+        "containerRegistryPassword":{
+            "type": "securestring",
+            "metadata": {
+                "description": "Password for accessing the Azure container registry"
+            }
+        },
         "deployContainerRegistry":{
             "type": "bool",
-            "defaultValue": true,
+            "defaultValue": false,
             "metadata": {
                 "description": "Create the container (set to false if you already have ACR)"
             }
@@ -61,14 +98,15 @@
         }
     },
     "variables": {
-        "container_registry_name": "[replace(parameters('websiteName'),'-', '')]",
         "app_insights_name": "[concat(parameters('websiteName'), '-ai')]",
         "storage_account_name": "[concat(replace(parameters('websiteName'),'-', ''), 'str')]",
-        "app_service_plan_name": "[concat(parameters('websiteName'), '-asp')]"
+        "app_service_plan_name": "[concat(parameters('websiteName'), '-asp')]",
+        "image_fx_kind": "[if(equals(parameters('containerImageName'),''),'linux','linux,container')]",
+        "image_fx_version": "[if(equals(parameters('containerImageName'),''),'',concat(parameters('containerDefinition'),'|',parameters('containerImageName')))]"
     },
     "resources": [
         {
-            "name": "[variables('container_registry_name')]",
+            "name": "[parameters('containerRegistryName')]",
             "type": "Microsoft.ContainerRegistry/registries",
             "location": "[parameters('location')]",
             "condition": "[parameters('deployContainerRegistry')]",
@@ -139,19 +177,36 @@
             "name": "[parameters('websiteName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
+                "[resourceId('Microsoft.ContainerRegistry/registries', parameters('containerRegistryName'))]",
                 "[resourceId('Microsoft.insights/components', variables('app_insights_name'))]",
                 "[resourceId('Microsoft.Web/serverfarms', variables('app_service_plan_name'))]"
             ],
-            "kind": "linux",
+            "kind": "[variables('image_fx_kind')]",
             "properties": {
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('app_service_plan_name'))]",
                 "httpsOnly": true,
                 "siteConfig": {
-                    "linuxFxVersion": "DOCKER",
+                    "linuxFxVersion": "[variables('image_fx_version')]",
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(concat('microsoft.insights/components/', variables('app_insights_name'))).InstrumentationKey]"
+                        },
+                        {
+                            "name": "AZURE_STORAGE_CONNECTION_STRING",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage_account_name'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storage_account_name')),'2019-06-01').keys[0].value)]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_URL",
+                            "value": "[concat('https://', parameters('containerRegistryName'), '.azurecr.io')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+                            "value": "[parameters('containerRegistryUsername')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+                            "value": "[parameters('containerRegistryPassword')]"
                         }
                     ]
                 },

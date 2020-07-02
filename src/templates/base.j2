@@ -1,0 +1,62 @@
+<!doctype html>
+<!--
+Based on a template designed by TEMPLATED http://templated.co
+Released for free under the Creative Commons Attribution License
+Name       : ClearFigure
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20140310
+-->
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>{{ title }}</title>
+  <link href="/default.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header-wrapper">
+		<div id="header" class="container">
+			<div id="logo">
+				<h1><a href="/">Python Docker</a></h1>
+				<p>An experimental web app</p>
+			</div>
+		</div>
+	</div>
+	<div id="menu-wrapper">
+		<div id="menu" class="container">
+			<ul>
+        {% for header_name in index.keys() %}
+				<li{% if header_name == title %} class="current_page_item"{% endif %}><a href="{{ index[header_name]['URL'] }}">{{ header_name }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		<!-- end #menu -->
+	</div>
+
+	<div id="page" class="container">
+		<div id="content">
+			<div class="title">
+        <h2>{% block heading %}{% endblock %}</h2>
+      </div>
+      {% block content %}{% endblock %}
+		</div>
+		<div id="sidebar">
+			<div class="box2">
+				<div class="title">
+					<h2>Sections</h2>
+				</div>
+				<ul class="style2">
+          {% for sidelinks in index.get(title,{}).get("Sections",[]) %}
+					<li><a href="{{ sidelinks['URL'] }}">{{ sidelinks['name'] }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="copyright" class="container">
+	<p>Web site based on a design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. The original work has been modified.</p>
+</div>
+</body>
+</html>
