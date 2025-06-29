@@ -8,7 +8,7 @@ Use the command `docker-compose up --build` to build the Dockerfile and run loca
 
 ### Azure .
 
-You can use the link below to deploy the ARM template to Azure to create the infrastructure
+You can use the link below to deploy the ARM template to Azure to create the infra structure
 
 [![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Frivoric%2Fwebsitemon%2Fmaster%2Fazuredeploy.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Frivoric%2Fwebsitemon%2Fmaster%2Fazuredeploy.json)
