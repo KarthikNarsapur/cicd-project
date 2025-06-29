@@ -6,7 +6,7 @@ Simple containerized Python web app
 
 Use the command `docker-compose up --build` to build the Dockerfile and run locally.
 
-### Azure
+### Azure .
 
 You can use the link below to deploy the ARM template to Azure to create the infrastructure
 
