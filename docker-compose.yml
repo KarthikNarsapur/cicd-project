@@ -5,11 +5,10 @@ services:
     image: mkodockx/docker-clamav
 
   webapp:
+    build: .
     depends_on:
       - clamav-server
-# replace below on deployment with image
-    build: .
     ports:
-      - 8082:8080
+      - "5001:5000"  # Expose on host port 5001 to avoid Jenkins port 8080
     env_file:
       - local.env
