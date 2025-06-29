@@ -1,11 +1,17 @@
 FROM python:3.8
 
-ADD ./src/requirements.txt /pyapp/requirements.txt
-
+# Set working directory
 WORKDIR /pyapp
 
-RUN pip install -r requirements.txt
+# Install dependencies
+COPY ./src/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-ADD ./src /pyapp
+# Copy app source code
+COPY ./src .
 
-CMD python ./runserver.py
+# Expose app port (optional but recommended)
+EXPOSE 5000
+
+# Run the app
+CMD ["python", "runserver.py"]
