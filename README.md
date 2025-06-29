@@ -1,4 +1,4 @@
-# python-docker
+# cicd for python-docker
 
 Simple containerized Python web app
 
